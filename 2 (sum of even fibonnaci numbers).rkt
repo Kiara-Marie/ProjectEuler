@@ -1,0 +1,37 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-advanced-reader.ss" "lang")((modname |2 (sum of even fibonnaci numbers)|) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+;; Natural -> Natural
+;; returns the sum of all even fibonacci numbers up to n
+
+(check-expect (even-fib-sum 3)
+              2)
+(check-expect (even-fib-sum 5)
+              2)
+(check-expect (even-fib-sum 10)
+              10)
+(check-expect (even-fib-sum 0)
+              0)
+(check-expect (even-fib-sum 1)
+              0)
+(check-expect (even-fib-sum 20)
+              10)
+(check-expect (even-fib-sum 35)
+              44)
+(define t1 0)
+(define t2 0)
+(define (even-fib-sum n)
+  (local [(define (fn cf pf rsf)
+            (cond [(> (+ cf pf) n) rsf]
+                  [else (if (odd? (+ cf pf))
+                            (fn (+ cf pf) cf rsf)
+                            (fn (+ cf pf) cf (+ (+ cf pf) rsf)))]))]
+    (fn 1 0 0)))
+
+(set! t1 (current-milliseconds))
+(even-fib-sum 4000000)
+(set! t2 (current-milliseconds))
+(- t2 t1)
+
+
+        
